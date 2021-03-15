@@ -14,12 +14,21 @@ public class DataImporter {
   String fileName = in;
   File file = new File(fileName);
   
-  Scanner scan = new Scanner(file);
-  scan.useDelimiter(",");
+  public boolean importData() {
+    try {
+      Scanner scan = new Scanner(file);
+      scan.useDelimiter(",");
   
-  while (scan.hasNext()) {
-    System.out.println(scan.next());
+      while (scan.hasNext()) {
+        System.out.println(scan.next());
+      }
+      
+      return true;
+    }
+    catch (FileNotFoundException e) {
+      System.out.print("File not found.");
+      return false;
+    }
+    scan.close();
   }
-  
-  scan.close();
 }
