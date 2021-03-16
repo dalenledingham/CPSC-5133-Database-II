@@ -10,25 +10,35 @@ import java.util.*;
 
 public class DataImporter {
   
-  Scanner in = new Scanner(System.in);
-  String fileName = in;
-  File file = new File(fileName);
-  
-  public boolean importData() {
+  private Connection connect() {
+    String url = "";
+    Connection conn = null;
     try {
-      Scanner scan = new Scanner(file);
-      scan.useDelimiter(",");
-  
-      while (scan.hasNext()) {
-        System.out.println(scan.next());
-      }
+      conn = DriverManager.getConnection(url);
       
-      return true;
+      conn.createStatement().executeUpdate("PRAGMA foreign_keys = ON;");
     }
-    catch (FileNotFoundException e) {
-      System.out.print("File not found.");
-      return false;
+    catch (SQLException e) {
+      System.out.println(e.getMessage()); 
     }
-    scan.close();
+    
+    return conn;
   }
+  
+  public void selectSample() {
+    String sql = "SELECT snum, sname FROM suppliers;";
+    
+    try (Connection conn = this.connect();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql)) {
+       
+      while (rs.next()) {
+        System.out..println(rs.getString("snum") + "\t" + rs.getString("sname") + "\t"); 
+      }
+    }
+    catch (SQLException e) {
+      System.out.println(e.getMessage()); 
+    }
+  }
+  
 }
