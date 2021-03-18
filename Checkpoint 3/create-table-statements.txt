@@ -1,0 +1,49 @@
+Room Information
+-	Number
+-	Occupied/Unoccupied
+-	Patient Name
+-	Patient Admission Date
+-	Assignment Administrator
+
+Patient Information
+-	ID Number PRIMARY KEY
+-	First Name
+-	Last Name UNIQUE
+-	Primary/Admitting Doctor
+-	Additional Doctors (can have multiple values)
+-	Diagnosis (can have multiple values, linked to Admission Date)
+-	Emergency Contact
+-	Insurance Policy
+-	Insurance Company
+-	Admission Date (can have multiple values)
+-	Discharge Date
+-	Discharge Administrator
+
+Treatment Information
+-	ID Number PRIMARY KEY
+-	Patient Name
+-	Treatment Type (P or M)
+-	Treatment Name
+-	Ordering Doctor
+-	Order Timestamp
+-	Administrator (who gave the treatment to the patient)
+-	Admission Timestamp
+
+Diagnosis Information
+-	ID Number PRIMARY KEY
+-	Diagnosis Name
+
+Employee Information
+-	ID Number PRIMARY KEY
+-	First Name
+-	Last Name UNIQUE
+-	Job Category (D, A, N, or T)
+
+Emergency Contact Information
+-	ID Number PRIMARY KEY
+-	First Name
+-	Last Name UNIQUE
+-	Phone
+
+
+
