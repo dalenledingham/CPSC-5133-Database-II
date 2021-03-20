@@ -1,3 +1,15 @@
+DROP TABLE Rooms CASCADE;
+DROP TABLE Patients CASCADE;
+DROP TABLE Treatments CASCADE;
+DROP TABLE OrderedTreatments CASCADE;
+DROP TABLE AdministeredTreatments CASCADE;
+DROP TABLE Diagnoses CASCADE;
+DROP TABLE PatientDiagnoses CASCADE;
+DROP TABLE Employees CASCADE;
+DROP TABLE EmergencyContacts CASCADE;
+
+
+
 CREATE TABLE Rooms
 (
     roomID INTEGER PRIMARY KEY,
