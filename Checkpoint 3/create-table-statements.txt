@@ -5,6 +5,15 @@ Room Information
 -	Patient Admission Date
 -	Assignment Administrator
 
+CREATE TABLE Rooms (
+    roomID INTEGER PRIMARY KEY,
+    patientID VARCHAR(10),
+    admitDate DATETIME, (?)
+    employeeID VARCHAR(10),
+    FOREIGN KEY (patientID) REFERENCES Patients (patientID),
+    FOREIGN KEY (employeeID) REFERENCES Employees (employeeID)
+);
+
 Patient Information
 -	ID Number PRIMARY KEY
 -	First Name
@@ -19,6 +28,20 @@ Patient Information
 -	Discharge Date
 -	Discharge Administrator
 
+CREATE TABLE Patients (
+    patientID VARCHAR(10) PRIMARY KEY,
+    pFirstName VARCHAR(20),
+    pLastname VARCHAR(20) UNIQUE,
+    employeeID INTEGER,
+    emergencyID INTEGER,
+    insurancePolicy VARCHAR(20),
+    insuranceCompany VARCHAR(20),
+    admitDate DATETIME,
+    dischargeDate DATETIME,
+    FOREIGN KEY (employeeID) REFERENCES Employees (employeeID),
+    FOREIGN KEY (emergencyID) REFERENCES EmergencyContacts (emergencyID),
+);
+
 Treatment Information
 -	ID Number PRIMARY KEY
 -	Patient Name
@@ -29,9 +52,49 @@ Treatment Information
 -	Administrator (who gave the treatment to the patient)
 -	Admission Timestamp
 
+CREATE TABLE Treatments (
+    treatmentID VARCHAR(10) PRIMARY KEY,
+    treatmentType CHAR(1), // P for procedure or M for medication
+    treatmentName VARCHAR(20),
+);
+
+CREATE TABLE OrderedTreatments (
+    treatmentID VARCHAR(10),
+    patientID VARCHAR(10),
+    employeeID VARCHAR(10),
+    orderTimestamp DATETIME,
+    FOREIGN KEY (treatmentID) REFERENCES Treatments (treatmentID),
+    FOREIGN KEY (patientID) REFERENCES Patients (patientID),
+    FOREIGN KEY (employeeID) REFERENCES Employees (employeeID)
+);
+
+CREATE TABLE AdministeredTreatments (
+    treatmentID VARCHAR(10),
+    patientID VARCHAR(10),
+    employeeID VARCHAR(10),
+    administerTimestamp DATETIME,
+    FOREIGN KEY (treatmentID) REFERENCES Treatments (treatmentID),
+    FOREIGN KEY (patientID) REFERENCES Patients (patientID),
+    FOREIGN KEY (employeeID) REFERENCES Employees (employeeID)
+);
+
 Diagnosis Information
 -	ID Number PRIMARY KEY
 -	Diagnosis Name
+
+CREATE TABLE Diagnoses (
+    diagnosisID VARCHAR(10) PRIMARY KEY,
+    diagnosisName VARCHAR(20)
+);
+
+CREATE TABLE PatientDiagnoses (
+    diagnosisID VARCHAR(10),
+    patientID VARCHAR(10),
+    admitDate DATETIME,
+    FOREIGN KEY (diagnosisID) REFERENCES Diagnoses (diagnosisID),
+    FOREIGN KEY (patientID) REFERENCES Patients (patientID),
+    FOREIGN KEY (admitDate) REFERENCES Patients (admitDate)
+);
 
 Employee Information
 -	ID Number PRIMARY KEY
@@ -39,11 +102,22 @@ Employee Information
 -	Last Name UNIQUE
 -	Job Category (D, A, N, or T)
 
+CREATE TABLE Employees (
+    employeeID VARCHAR(10) PRIMARY KEY,
+    eFirstName VARCHAR(20),
+    eLastName VARCHAR(20) UNIQUE,
+    jobCategory CHAR(1) // D for doctor, A for administrator, N for nurst, or T for technician
+);
+
 Emergency Contact Information
 -	ID Number PRIMARY KEY
 -	First Name
 -	Last Name UNIQUE
 -	Phone
 
-
-
+CREATE TABLE EmergencyContacts (
+    emergencyID VARCHAR(10) PRIMARY KEY,
+    ecFirstName VARCHAR(20),
+    ecLastName VARCHAR(20) UNIQUE,
+    phone VARCHAR(12)
+);
