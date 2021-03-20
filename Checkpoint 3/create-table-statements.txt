@@ -20,14 +20,14 @@ CREATE TABLE Patients
     admitDate DATETIME,
     dischargeDate DATETIME,
     FOREIGN KEY (employeeID) REFERENCES Employees (employeeID),
-    FOREIGN KEY (emergencyID) REFERENCES EmergencyContacts (emergencyID),
+    FOREIGN KEY (emergencyID) REFERENCES EmergencyContacts (emergencyID)
 );
 
 CREATE TABLE Treatments
 (
     treatmentID VARCHAR(10) PRIMARY KEY,
-    treatmentType CHAR(1), // P for procedure or M for medication
-    treatmentName VARCHAR(20),
+    treatmentType CHAR(1),
+    treatmentName VARCHAR(20)
 );
 
 CREATE TABLE OrderedTreatments
@@ -73,7 +73,7 @@ CREATE TABLE Employees
     employeeID VARCHAR(10) PRIMARY KEY,
     eFirstName VARCHAR(20),
     eLastName VARCHAR(20) UNIQUE,
-    jobCategory CHAR(1) // D for doctor, A for administrator, N for nurst, or T for technician
+    jobCategory CHAR(1)
 );
 
 CREATE TABLE EmergencyContacts
