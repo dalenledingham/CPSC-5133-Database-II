@@ -12,27 +12,26 @@ CREATE TABLE Rooms
 (
     rid INTEGER,
     roomNum INTEGER,
-    pid INTEGER,
-    admitDate SMALLDATETIME,
-    eid INTEGER,
-    PRIMARY KEY (rid AUTOINCREMENT),
-    FOREIGN KEY (pid) REFERENCES Patients (pid),
-    FOREIGN KEY (eid) REFERENCES Employees (eid)
+    pFirstName VARCHAR,
+    pLastName VARCHAR UNIQUE,
+    admitDate VARCHAR,
+    PRIMARY KEY (rid AUTOINCREMENT)
 );
 CREATE TABLE Patients
 (
     pid INTEGER,
-    firstName VARCHAR,
-    lastName VARCHAR UNIQUE,
-    eid INTEGER,
-    ecid INTEGER,
+    pFirstName VARCHAR,
+    pLastName VARCHAR UNIQUE,
+    roomNum INTEGER,
+    ecName VARCHAR,
+    ecPhone VARCHAR,
     insPolicy VARCHAR,
     insCompany VARCHAR,
-    admitDate SMALLDATETIME,
-    dischargeDate SMALLDATETIME,
-    PRIMARY KEY (pid AUTOINCREMENT),
-    FOREIGN KEY (eid) REFERENCES Employees (eid),
-    FOREIGN KEY (ecid) REFERENCES EmergencyContacts (ecid)
+    eLastName VARCHAR,
+    diagnosisName VARCHAR,
+    admitDate VARCHAR,
+    dischargeDATE VARCHAR,
+    PRIMARY KEY (pid AUTOINCREMENT)
 );
 CREATE TABLE Treatments
 (
@@ -46,7 +45,7 @@ CREATE TABLE OrderedTreatments
     tid INTEGER,
     pid INTEGER,
     eid INTEGER,
-    orderTime SMALLDATETIME,
+    orderTime VARCHAR,
     PRIMARY KEY (tid, pid, eid),
     FOREIGN KEY (tid) REFERENCES Treatments (tid),
     FOREIGN KEY (pid) REFERENCES Patients (pid),
@@ -57,7 +56,7 @@ CREATE TABLE AdministeredTreatments
     tid INTEGER,
     pid INTEGER,
     eid INTEGER,
-    adminTime SMALLDATETIME,
+    adminTime VARCHAR,
     PRIMARY KEY (tid, pid, eid),
     FOREIGN KEY (tid) REFERENCES Treatments (tid),
     FOREIGN KEY (pid) REFERENCES Patients (pid),
@@ -65,35 +64,27 @@ CREATE TABLE AdministeredTreatments
 );
 CREATE TABLE Diagnoses
 (
-    diagnosisID INTEGER,
+    did INTEGER,
     diagnosisName VARCHAR,
-    PRIMARY KEY (diagnosisID AUTOINCREMENT)
-);
-CREATE TABLE PatientDiagnoses
-(
-    diagnosisID INTEGER,
-    pid INTEGER,
-    admitDate SMALLDATETIME,
-    dischargeDate SMALLDATETIME,
-    PRIMARY KEY (diagnosisID, pid, admitDate),
-    FOREIGN KEY (diagnosisID) REFERENCES Diagnoses (diagnosisID),
-    FOREIGN KEY (pid) REFERENCES Patients (pid),
-    FOREIGN KEY (admitDate) REFERENCES Patients (admitDate),
-    FOREIGN KEY (dischargeDate) REFERENCES Patients (dischargeDate)
+    pFirstName VARCHAR,
+    pLastName VARCHAR,
+    admitDate VARCHAR,
+    dischargeDate VARCHAR,
+    PRIMARY KEY (did AUTOINCREMENT)
 );
 CREATE TABLE Employees
 (
     eid INTEGER,
-    firstName VARCHAR,
-    lastName VARCHAR UNIQUE,
-    jobCategory VARCHAR,
+    eType VARCHAR,
+    eFirstName VARCHAR,
+    eLastName VARCHAR UNIQUE,
     PRIMARY KEY (eid AUTOINCREMENT)
 );
 CREATE TABLE EmergencyContacts
 (
     ecid INTEGER,
-    name VARCHAR,
-    phone VARCHAR(12),
+    ecName VARCHAR,
+    ecPhone VARCHAR(12),
     PRIMARY KEY (ecid AUTOINCREMENT)
 );
 CREATE TABLE AdditionalDoctors
