@@ -70,6 +70,33 @@ public class DataImporter {
       }
    }
    
+  
+  // Read data from additional doctors file
+   public void readDoctorFile(String filePath) {
+      try (Scanner scan = new Scanner(new File(filePath))) {
+         scan.useDelimiter(",");
+         String line = null;
+         String[] split = null;
+         
+         while (scan.hasNextLine()) {
+            line = scan.nextLine();
+            split = line.split(",");
+            ArrayList<String> data = new ArrayList<String>();
+            // copy array to arraylist
+            for (String text : split) {
+               data.add(text);
+            }
+            
+            insertAdditionalDoctor(data);
+         }
+         
+         scan.close();
+      }
+      catch (IOException e) {
+         System.out.println(e.getMessage());
+      }
+   }
+  
    
    // Insert patient info into Patient table
    public void insertPatient(ArrayList<String> arr) {
@@ -145,6 +172,42 @@ public class DataImporter {
          ps.setString(3, arr.get(2));
          ps.setString(4, arr.get(10));
          ps.setString(5, arr.get(11));
+         ps.executeUpdate();
+         ps.close();
+      }
+      catch (SQLException e) {
+         System.out.println(e.getMessage());
+      }
+   }
+  
+  
+  // Insert emergency contact info into EmergencyContacts table
+   public void insertEmergencyContact(ArrayList<String> arr) {
+      String sql = "INSERT INTO EmergencyContacts(pFirstName, pLastName, ecName, ecPhone) VALUES (?,?,?,?);";
+   
+      try (Connection conn = this.connect();) {
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ps.setString(1, arr.get(1));
+         ps.setString(2, arr.get(2));
+         ps.setString(3, arr.get(4));
+         ps.setString(4, arr.get(5));
+         ps.executeUpdate();
+         ps.close();
+      }
+      catch (SQLException e) {
+         System.out.println(e.getMessage());
+      }
+   }
+   
+   
+   // Insert additional doctor info into AdditionalDoctors table
+   public void insertAdditionalDoctor(ArrayList<String> arr) {
+      String sql = "INSERT INTO AdditionalDoctors(pLastName, eLastName) VALUES (?,?);";
+   
+      try (Connection conn = this.connect();) {
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ps.setString(1, arr.get(0));
+         ps.setString(2, arr.get(1));
          ps.executeUpdate();
          ps.close();
       }
