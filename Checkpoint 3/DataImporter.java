@@ -215,6 +215,26 @@ public class DataImporter {
          System.out.println(e.getMessage());
       }
    }
+  
+  
+   // Insert treatment info into Treatment table
+   public void insertTreatment(ArrayList<String> arr) {
+      String sql = "INSERT INTO Treatment(pLastName, eLastName, treatmentType, treatmentName, administerTime) VALUES (?,?,?,?,?);";
+     
+      try (Connection conn = this.connect();) {
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ps.setString(1, arr.get(0));
+         ps.setString(2, arr.get(1));
+         ps.setString(3, arr.get(2));
+         ps.setString(4, arr.get(3));
+         ps.setString(5, arr.get(4));
+         ps.executeUpdate();
+         ps.close();
+      }
+     catch (SQLException e) {
+        System.out.println(e.getMessage());
+     }
+   }
    
    
    // Main method
