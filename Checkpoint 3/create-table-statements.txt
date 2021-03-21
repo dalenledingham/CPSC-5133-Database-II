@@ -34,27 +34,12 @@ CREATE TABLE Patients
 );
 CREATE TABLE Treatments
 (
+    pLastName VARCHAR,
+    eLastName VARCHAR,
     treatmentType VARCHAR,
     treatmentName VARCHAR,
-    PRIMARY KEY (treatmentType, treatmentName)
-);
-CREATE TABLE OrderedTreatments
-(
-    treatmentName VARCHAR,
-    pLastName VARCHAR,
-    eLastName VARCHAR,
-    orderTime VARCHAR,
-    PRIMARY KEY (pLastName, treatmentName, orderTime),
-    FOREIGN KEY (treatmentName) REFERENCES Treatments (treatmentName)
-);
-CREATE TABLE AdministeredTreatments
-(
-    treatmentName VARCHAR,
-    pLastName VARCHAR,
-    eLastName VARCHAR,
     administerTime VARCHAR,
-    PRIMARY KEY (pLastName, treatmentName, administerTime),
-    FOREIGN KEY (treatmentName) REFERENCES Treatments (treatmentName)
+    PRIMARY KEY (pLastName, treatmentName, administerTime)
 );
 CREATE TABLE Diagnoses
 (
