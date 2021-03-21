@@ -4,18 +4,17 @@ DROP TABLE Treatments;
 DROP TABLE OrderedTreatments;
 DROP TABLE AdministeredTreatments;
 DROP TABLE Diagnoses;
-DROP TABLE PatientDiagnoses;
 DROP TABLE Employees;
 DROP TABLE EmergencyContacts;
+DROP TABLE AdditionalDoctors;
 
 CREATE TABLE Rooms
 (
-    rid INTEGER,
     roomNum INTEGER,
     pFirstName VARCHAR,
     pLastName VARCHAR UNIQUE,
     admitDate VARCHAR,
-    PRIMARY KEY (rid AUTOINCREMENT)
+    PRIMARY KEY (roomNum)
 );
 CREATE TABLE Patients
 (
@@ -35,42 +34,36 @@ CREATE TABLE Patients
 );
 CREATE TABLE Treatments
 (
-    tid INTEGER,
     treatmentType VARCHAR,
     treatmentName VARCHAR,
-    PRIMARY KEY (tid AUTOINCREMENT)
+    PRIMARY KEY (treatmentType, treatmentName)
 );
 CREATE TABLE OrderedTreatments
 (
-    tid INTEGER,
-    pid INTEGER,
-    eid INTEGER,
+    treatmentName VARCHAR,
+    pLastName VARCHAR,
+    eLastName VARCHAR,
     orderTime VARCHAR,
-    PRIMARY KEY (tid, pid, eid),
-    FOREIGN KEY (tid) REFERENCES Treatments (tid),
-    FOREIGN KEY (pid) REFERENCES Patients (pid),
-    FOREIGN KEY (eid) REFERENCES Employees (eid)
+    PRIMARY KEY (pLastName, treatmentName, orderTime),
+    FOREIGN KEY (treatmentName) REFERENCES Treatments (treatmentName)
 );
 CREATE TABLE AdministeredTreatments
 (
-    tid INTEGER,
-    pid INTEGER,
-    eid INTEGER,
-    adminTime VARCHAR,
-    PRIMARY KEY (tid, pid, eid),
-    FOREIGN KEY (tid) REFERENCES Treatments (tid),
-    FOREIGN KEY (pid) REFERENCES Patients (pid),
-    FOREIGN KEY (eid) REFERENCES Employees (eid)
+    treatmentName VARCHAR,
+    pLastName VARCHAR,
+    eLastName VARCHAR,
+    administerTime VARCHAR,
+    PRIMARY KEY (pLastName, treatmentName, administerTime),
+    FOREIGN KEY (treatmentName) REFERENCES Treatments (treatmentName)
 );
 CREATE TABLE Diagnoses
 (
-    did INTEGER,
     diagnosisName VARCHAR,
     pFirstName VARCHAR,
     pLastName VARCHAR,
     admitDate VARCHAR,
     dischargeDate VARCHAR,
-    PRIMARY KEY (did AUTOINCREMENT)
+    PRIMARY KEY (diagnosisName, pLastName, admitDate)
 );
 CREATE TABLE Employees
 (
@@ -82,16 +75,15 @@ CREATE TABLE Employees
 );
 CREATE TABLE EmergencyContacts
 (
-    ecid INTEGER,
+    pFirstName VARCHAR,
+    pLastName VARCHAR,
     ecName VARCHAR,
-    ecPhone VARCHAR(12),
-    PRIMARY KEY (ecid AUTOINCREMENT)
+    ecPhone VARCHAR,
+    PRIMARY KEY (pLastName, ecName)
 );
 CREATE TABLE AdditionalDoctors
 (
-    eid INTEGER,
-    pid INTEGER,
-    PRIMARY KEY (eid, pid),
-    FOREIGN KEY (eid) REFERENCES Employees (eid),
-    FOREIGN KEY (pid) REFERENCES Patients (pid)
+    eLastName VARCHAR,
+    pLastName VARCHAR,
+    PRIMARY KEY (eLastName, pLastName)
 );
