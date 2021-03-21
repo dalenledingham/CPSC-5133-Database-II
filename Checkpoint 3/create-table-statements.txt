@@ -1,155 +1,106 @@
-DROP TABLE Rooms CASCADE;
-
-DROP TABLE Patients CASCADE;
-
-DROP TABLE Treatments CASCADE;
-
-DROP TABLE OrderedTreatments CASCADE;
-
-DROP TABLE AdministeredTreatments CASCADE;
-
-DROP TABLE Diagnoses CASCADE;
-
-DROP TABLE PatientDiagnoses CASCADE;
-
-DROP TABLE Employees CASCADE;
-
-DROP TABLE EmergencyContacts CASCADE;
-
-
+DROP TABLE Rooms;
+DROP TABLE Patients;
+DROP TABLE Treatments;
+DROP TABLE OrderedTreatments;
+DROP TABLE AdministeredTreatments;
+DROP TABLE Diagnoses;
+DROP TABLE PatientDiagnoses;
+DROP TABLE Employees;
+DROP TABLE EmergencyContacts;
 
 CREATE TABLE Rooms
 (
-    roomID INTEGER PRIMARY KEY,
-    patientID VARCHAR(10),
-    admitDate DATETIME,
-    employeeID VARCHAR(10),
-    FOREIGN KEY (patientID) REFERENCES Patients (patientID),
-    FOREIGN KEY (employeeID) REFERENCES Employees (employeeID)
+    rid INTEGER,
+    roomNum INTEGER,
+    pid INTEGER,
+    admitDate SMALLDATETIME,
+    eid INTEGER,
+    PRIMARY KEY (rid AUTOINCREMENT),
+    FOREIGN KEY (pid) REFERENCES Patients (pid),
+    FOREIGN KEY (eid) REFERENCES Employees (eid)
 );
-
 CREATE TABLE Patients
 (
-    patientID VARCHAR(10) PRIMARY KEY,
-    pFirstName VARCHAR(20),
-    pLastname VARCHAR(20) UNIQUE,
-    employeeID INTEGER,
-    emergencyID INTEGER,
-    insurancePolicy VARCHAR(20),
-    insuranceCompany VARCHAR(20),
-    admitDate DATETIME,
-    dischargeDate DATETIME,
-    FOREIGN KEY (employeeID) REFERENCES Employees (employeeID),
-    FOREIGN KEY (emergencyID) REFERENCES EmergencyContacts (emergencyID)
+    pid INTEGER,
+    firstName VARCHAR,
+    lastName VARCHAR UNIQUE,
+    eid INTEGER,
+    ecid INTEGER,
+    insPolicy VARCHAR,
+    insCompany VARCHAR,
+    admitDate SMALLDATETIME,
+    dischargeDate SMALLDATETIME,
+    PRIMARY KEY (pid AUTOINCREMENT),
+    FOREIGN KEY (eid) REFERENCES Employees (eid),
+    FOREIGN KEY (ecid) REFERENCES EmergencyContacts (ecid)
 );
-
 CREATE TABLE Treatments
 (
-    treatmentID VARCHAR(10) PRIMARY KEY,
-    treatmentType CHAR(1),
-    treatmentName VARCHAR(20)
+    tid INTEGER,
+    treatmentType VARCHAR,
+    treatmentName VARCHAR,
+    PRIMARY KEY (tid AUTOINCREMENT)
 );
-
 CREATE TABLE OrderedTreatments
 (
-    treatmentID VARCHAR(10),
-    patientID VARCHAR(10),
-    employeeID VARCHAR(10),
-    orderTimestamp DATETIME,
-    FOREIGN KEY (treatmentID) REFERENCES Treatments (treatmentID),
-    FOREIGN KEY (patientID) REFERENCES Patients (patientID),
-    FOREIGN KEY (employeeID) REFERENCES Employees (employeeID)
+    tid INTEGER,
+    pid INTEGER,
+    eid INTEGER,
+    orderTime SMALLDATETIME,
+    PRIMARY KEY (tid, pid, eid),
+    FOREIGN KEY (tid) REFERENCES Treatments (tid),
+    FOREIGN KEY (pid) REFERENCES Patients (pid),
+    FOREIGN KEY (eid) REFERENCES Employees (eid)
 );
-
 CREATE TABLE AdministeredTreatments
 (
-    treatmentID VARCHAR(10),
-    patientID VARCHAR(10),
-    employeeID VARCHAR(10),
-    administerTimestamp DATETIME,
-    FOREIGN KEY (treatmentID) REFERENCES Treatments (treatmentID),
-    FOREIGN KEY (patientID) REFERENCES Patients (patientID),
-    FOREIGN KEY (employeeID) REFERENCES Employees (employeeID)
+    tid INTEGER,
+    pid INTEGER,
+    eid INTEGER,
+    adminTime SMALLDATETIME,
+    PRIMARY KEY (tid, pid, eid),
+    FOREIGN KEY (tid) REFERENCES Treatments (tid),
+    FOREIGN KEY (pid) REFERENCES Patients (pid),
+    FOREIGN KEY (eid) REFERENCES Employees (eid)
 );
-
 CREATE TABLE Diagnoses
 (
-    diagnosisID VARCHAR(10) PRIMARY KEY,
-    diagnosisName VARCHAR(20)
+    diagnosisID INTEGER,
+    diagnosisName VARCHAR,
+    PRIMARY KEY (diagnosisID AUTOINCREMENT)
 );
-
 CREATE TABLE PatientDiagnoses
 (
-    diagnosisID VARCHAR(10),
-    patientID VARCHAR(10),
-    admitDate DATETIME,
+    diagnosisID INTEGER,
+    pid INTEGER,
+    admitDate SMALLDATETIME,
+    dischargeDate SMALLDATETIME,
+    PRIMARY KEY (diagnosisID, pid, admitDate),
     FOREIGN KEY (diagnosisID) REFERENCES Diagnoses (diagnosisID),
-    FOREIGN KEY (patientID) REFERENCES Patients (patientID),
-    FOREIGN KEY (admitDate) REFERENCES Patients (admitDate)
+    FOREIGN KEY (pid) REFERENCES Patients (pid),
+    FOREIGN KEY (admitDate) REFERENCES Patients (admitDate),
+    FOREIGN KEY (dischargeDate) REFERENCES Patients (dischargeDate)
 );
-
 CREATE TABLE Employees
 (
-    employeeID VARCHAR(10) PRIMARY KEY,
-    eFirstName VARCHAR(20),
-    eLastName VARCHAR(20) UNIQUE,
-    jobCategory CHAR(1)
+    eid INTEGER,
+    firstName VARCHAR,
+    lastName VARCHAR UNIQUE,
+    jobCategory VARCHAR,
+    PRIMARY KEY (eid AUTOINCREMENT)
 );
-
 CREATE TABLE EmergencyContacts
 (
-    emergencyID VARCHAR(10) PRIMARY KEY,
-    ecFirstName VARCHAR(20),
-    ecLastName VARCHAR(20) UNIQUE,
-    phone VARCHAR(12)
+    ecid INTEGER,
+    name VARCHAR,
+    phone VARCHAR(12),
+    PRIMARY KEY (ecid AUTOINCREMENT)
 );
-
-
-
-
-Room Information
--	Number
--	Occupied/Unoccupied
--	Patient Name
--	Patient Admission Date
--	Assignment Administrator
-
-Patient Information
--	ID Number PRIMARY KEY
--	First Name
--	Last Name UNIQUE
--	Primary/Admitting Doctor
--	Additional Doctors (can have multiple values)
--	Diagnosis (can have multiple values, linked to Admission Date)
--	Emergency Contact
--	Insurance Policy
--	Insurance Company
--	Admission Date (can have multiple values)
--	Discharge Date
--	Discharge Administrator
-
-Treatment Information
--	ID Number PRIMARY KEY
--	Patient Name
--	Treatment Type (P or M)
--	Treatment Name
--	Ordering Doctor
--	Order Timestamp
--	Administrator (who gave the treatment to the patient)
--	Admission Timestamp
-
-Diagnosis Information
--	ID Number PRIMARY KEY
--	Diagnosis Name
-
-Employee Information
--	ID Number PRIMARY KEY
--	First Name
--	Last Name UNIQUE
--	Job Category (D, A, N, or T)
-
-Emergency Contact Information
--	ID Number PRIMARY KEY
--	First Name
--	Last Name UNIQUE
--	Phone
+CREATE TABLE AdditionalDoctors
+(
+    eid INTEGER,
+    pid INTEGER,
+    PRIMARY KEY (eid, pid),
+    FOREIGN KEY (eid) REFERENCES Employees (eid),
+    FOREIGN KEY (pid) REFERENCES Patients (pid)
+);
