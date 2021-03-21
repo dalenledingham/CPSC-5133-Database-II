@@ -1,0 +1,97 @@
+DROP TABLE Rooms;
+DROP TABLE Patients;
+DROP TABLE Treatments;
+DROP TABLE OrderedTreatments;
+DROP TABLE AdministeredTreatments;
+DROP TABLE Diagnoses;
+DROP TABLE PatientDiagnoses;
+DROP TABLE Employees;
+DROP TABLE EmergencyContacts;
+
+CREATE TABLE Rooms
+(
+    rid INTEGER,
+    roomNum INTEGER,
+    pFirstName VARCHAR,
+    pLastName VARCHAR UNIQUE,
+    admitDate VARCHAR,
+    PRIMARY KEY (rid AUTOINCREMENT)
+);
+CREATE TABLE Patients
+(
+    pid INTEGER,
+    pFirstName VARCHAR,
+    pLastName VARCHAR UNIQUE,
+    roomNum INTEGER,
+    ecName VARCHAR,
+    ecPhone VARCHAR,
+    insPolicy VARCHAR,
+    insCompany VARCHAR,
+    eLastName VARCHAR,
+    diagnosisName VARCHAR,
+    admitDate VARCHAR,
+    dischargeDATE VARCHAR,
+    PRIMARY KEY (pid AUTOINCREMENT)
+);
+CREATE TABLE Treatments
+(
+    tid INTEGER,
+    treatmentType VARCHAR,
+    treatmentName VARCHAR,
+    PRIMARY KEY (tid AUTOINCREMENT)
+);
+CREATE TABLE OrderedTreatments
+(
+    tid INTEGER,
+    pid INTEGER,
+    eid INTEGER,
+    orderTime VARCHAR,
+    PRIMARY KEY (tid, pid, eid),
+    FOREIGN KEY (tid) REFERENCES Treatments (tid),
+    FOREIGN KEY (pid) REFERENCES Patients (pid),
+    FOREIGN KEY (eid) REFERENCES Employees (eid)
+);
+CREATE TABLE AdministeredTreatments
+(
+    tid INTEGER,
+    pid INTEGER,
+    eid INTEGER,
+    adminTime VARCHAR,
+    PRIMARY KEY (tid, pid, eid),
+    FOREIGN KEY (tid) REFERENCES Treatments (tid),
+    FOREIGN KEY (pid) REFERENCES Patients (pid),
+    FOREIGN KEY (eid) REFERENCES Employees (eid)
+);
+CREATE TABLE Diagnoses
+(
+    did INTEGER,
+    diagnosisName VARCHAR,
+    pFirstName VARCHAR,
+    pLastName VARCHAR,
+    admitDate VARCHAR,
+    dischargeDate VARCHAR,
+    PRIMARY KEY (did AUTOINCREMENT)
+);
+CREATE TABLE Employees
+(
+    eid INTEGER,
+    eType VARCHAR,
+    eFirstName VARCHAR,
+    eLastName VARCHAR UNIQUE,
+    PRIMARY KEY (eid AUTOINCREMENT)
+);
+CREATE TABLE EmergencyContacts
+(
+    ecid INTEGER,
+    ecName VARCHAR,
+    ecPhone VARCHAR(12),
+    PRIMARY KEY (ecid AUTOINCREMENT)
+);
+CREATE TABLE AdditionalDoctors
+(
+    eid INTEGER,
+    pid INTEGER,
+    PRIMARY KEY (eid, pid),
+    FOREIGN KEY (eid) REFERENCES Employees (eid),
+    FOREIGN KEY (pid) REFERENCES Patients (pid)
+);
