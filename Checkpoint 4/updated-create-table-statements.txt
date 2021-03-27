@@ -66,3 +66,12 @@ CREATE TABLE Rooms
     PRIMARY KEY (rID AUTOINCREMENT),
     FOREIGN KEY (patient) REFERENCES Persons (pID)
 );
+CREATE TABLE AdditionalDoctors
+(
+    adID INTEGER,
+    patient INTEGER,
+    doctor INTEGER,
+    PRIMARY KEY (adID AUTOINCREMENT),
+    FOREIGN KEY (patient) REFERENCES Persons (pID),
+    FOREIGN KEY (doctor) REFERENCES Persons (pID)
+);
