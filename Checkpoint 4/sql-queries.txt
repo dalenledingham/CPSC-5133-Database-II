@@ -16,13 +16,13 @@
 -- SELECT (pID, firstName, lastName) FROM Persons WHERE dischargeDate is NULL;
 
 2.3. List all patients who were discharged in a given date range. List only patient identification number and name.
--- 
+-- SELECT * FROM Persons WHERE disghargeDate BETWEEN input AND input;
 
 2.4. List all patients who were admitted within a given date range. List only patient identification number and name.
--- 
+-- SELECT * FROM Persons WHERE admitDate BETWEEN input AND input;
 
 2.5. For a given patient (either patient identification number or name), list all admissions to the hospital along with the diagnosis for each admission.
--- 
+-- SELECT * FROM Persons WHERE lastName = input;
 
 2.6. For a given patient (either patient identification number or name), list all treatments that were administered. Group treatments by admissions. List admissions in descending chronological order, and list treatments in ascending chronological order within each admission.
 -- 
@@ -39,7 +39,7 @@
 -- 
 
 3.2. List the diagnoses given to hospital patients, in descending order of occurrences. List diagnosis identification number, name, and total occurrences of each diagnosis.
--- 
+-- // this query is the same as 3.1, skip this query
 
 3.3. List the treatments performed on admitted patients, in descending order of occurrences. List treatment identification number, name, and total number of occurrences of each treatment.
 -- 
