@@ -29,10 +29,10 @@
 -- ORDER BY administerTime ASC;
 
 2.7. List patients who were admitted to the hospital within 30 days of their last discharge date. For each patient list their patient identification number, name, diagnosis, and admitting doctor.
--- 
+-- SELECT (patientID, firstName, lastName, initialDiagnosis, primaryDoctor) FROM Admissions WHERE admitDate within 30 days from last dischargeDate
 
 2.8. For each patient that has ever been admitted to the hospital, list their total number of admissions, average duration of each admission, longest span between admissions, shortest span between admissions, and average span between admissions.
--- 
+-- SELECT (DISTINCT lastName, COUNT(lastName), average, longest, shortest, average) FROM Admissions;
 
 
 
@@ -49,8 +49,9 @@
 -- GROUP BY t.treatmentName
 -- ORDER BY COUNT(pt.treatment) DESC;
 
-3.4. List the diagnoses associated with patients who have the highest occurrences of admissions to the hospital, in ascending order or correlation.
--- 
+3.4. List the diagnoses associated with patients who have the highest occurrences of admissions to the hospital, in ascending order of correlation.
+-- SELECT (patientID, COUNT(patientID, initialDiagnosis)) FROM Admissions
+-- ORDER BY COUNT(patientID, initialDiagnosis);
 
 3.5. For a given treatment occurrence, list the patient name and the doctor who ordered the treatment.
 -- SELECT (patient, orderingDoctor) FROM PatientTreatments;
@@ -62,7 +63,7 @@
 -- ORDER BY lastName COLLATE NOCASE ASC;
 
 4.2. List the primary doctors of patients with a high admission rate (at least 4 admissions within a one-year time frame).
--- 
+-- SELECT (primaryDoctor) FROM Admissions WHERE 
 
 4.3. For a given doctor, list all associated diagnoses in descending order of occurrence. For each diagnosis, list the total number of occurrences for the given doctor.
 -- SELECT DISTINCT initialDiagnosis, COUNT(initialDiagnosis) FROM Admissions WHERE primaryDoctor = input, Admissions.initialDiagnosis = Diagnoses.dID;
@@ -72,4 +73,4 @@
 
 4.5. List employees who have been involved in the treatment of every admitted patient.
 -- SELECT (patientID, primaryDoctor) FROM Admissions WHERE dischargeDate is NULL
--- JOIN WITH (patient, doctor) FROM AdditionalDoctors WHERE Admissions.patientID = AdditionalDoctors.patient;
+-- JOIN (SELECT (patient, doctor) FROM AdditionalDoctors WHERE Admissions.patientID = AdditionalDoctors.patient);
