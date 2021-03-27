@@ -63,7 +63,9 @@
 -- ORDER BY lastName COLLATE NOCASE ASC;
 
 4.2. List the primary doctors of patients with a high admission rate (at least 4 admissions within a one-year time frame).
--- SELECT (primaryDoctor) FROM Admissions WHERE 
+-- SELECT (primaryDoctor) FROM Admissions
+-- GROUP BY (patientID)
+-- HAVING COUNT(patientID) >= 4;
 
 4.3. For a given doctor, list all associated diagnoses in descending order of occurrence. For each diagnosis, list the total number of occurrences for the given doctor.
 -- SELECT DISTINCT initialDiagnosis, COUNT(initialDiagnosis) FROM Admissions WHERE primaryDoctor = input, Admissions.initialDiagnosis = Diagnoses.dID;
