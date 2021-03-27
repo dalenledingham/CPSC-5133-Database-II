@@ -25,7 +25,8 @@
 -- SELECT * FROM Persons WHERE lastName = input;
 
 2.6. For a given patient (either patient identification number or name), list all treatments that were administered. Group treatments by admissions. List admissions in descending chronological order, and list treatments in ascending chronological order within each admission.
--- 
+-- SELECT (treatment) FROM PatientTreatments WHERE patient = input
+-- ORDER BY administerTime ASC;
 
 2.7. List patients who were admitted to the hospital within 30 days of their last discharge date. For each patient list their patient identification number, name, diagnosis, and admitting doctor.
 -- 
@@ -36,19 +37,23 @@
 
 
 3.1. List the diagnoses given to patients, in descending order of occurrences. List diagnosis identification number, name, and total occurrences of each diagnosis.
--- 
+-- SELECT d.dID, d.diagnosisName, COUNT(p.initialDiagnosis) FROM Diagnoses d, Persons p
+-- GROUP BY d.diagnosisName
+-- ORDER BY COUNT(p.initialDiagnosis) DESC;
 
 3.2. List the diagnoses given to hospital patients, in descending order of occurrences. List diagnosis identification number, name, and total occurrences of each diagnosis.
--- // this query is the same as 3.1, skip this query
+-- // this query is the same as 3.1, skip this queryDFJK
 
 3.3. List the treatments performed on admitted patients, in descending order of occurrences. List treatment identification number, name, and total number of occurrences of each treatment.
--- 
+-- SELECT t.tID, t.treatmentName, COUNT(pt.treatment) FROM Treatments t, PatientTreatments pt
+-- GROUP BY t.treatmentName
+-- ORDER BY COUNT(pt.treatment) DESC;
 
 3.4. List the diagnoses associated with patients who have the highest occurrences of admissions to the hospital, in ascending order or correlation.
 -- 
 
 3.5. For a given treatment occurrence, list the patient name and the doctor who ordered the treatment.
--- 
+-- SELECT (patient, orderingDoctor) FROM PatientTreatments;
 
 
 
@@ -66,4 +71,4 @@
 -- 
 
 4.5. List employees who have been involved in the treatment of every admitted patient.
--- 
+-- SELECT (patient, doctor) WHERE currentlyAdmitted = 'Y';
