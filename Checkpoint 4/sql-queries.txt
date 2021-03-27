@@ -32,7 +32,9 @@
 -- SELECT (patientID, firstName, lastName, initialDiagnosis, primaryDoctor) FROM Admissions WHERE admitDate within 30 days from last dischargeDate
 
 2.8. For each patient that has ever been admitted to the hospital, list their total number of admissions, average duration of each admission, longest span between admissions, shortest span between admissions, and average span between admissions.
--- SELECT (DISTINCT lastName, COUNT(lastName), average, longest, shortest, average) FROM Admissions;
+-- SELECT (DISTINCT lastName, COUNT(lastName), AVG(DATE(dischargeDate) - DATE(admitDate)) FROM Admissions
+--  
+-- longest, shortest, average) FROM Admissions;
 
 
 
