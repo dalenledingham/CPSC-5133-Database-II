@@ -13,16 +13,16 @@
 -- SELECT * FROM Persons WHERE personType = 'P';
 
 2.2. List all patients currently admitted to the hospital. List only patient identification number and name.
--- SELECT (pID, firstName, lastName) FROM Persons WHERE dischargeDate is NULL;
+-- SELECT (patientID, firstName, lastName) FROM Admissions WHERE dischargeDate is NULL;
 
 2.3. List all patients who were discharged in a given date range. List only patient identification number and name.
--- SELECT * FROM Persons WHERE disghargeDate BETWEEN input AND input;
+-- SELECT (patientID, firstName, lastName) FROM Admissions WHERE disghargeDate BETWEEN input AND input, Admissions.patientID = Persons.pID;
 
 2.4. List all patients who were admitted within a given date range. List only patient identification number and name.
--- SELECT * FROM Persons WHERE admitDate BETWEEN input AND input;
+-- SELECT (patientID, firstName, lastName) FROM Admissions WHERE admitDate BETWEEN input AND input, Admissions.patientID = Persons.pID;
 
 2.5. For a given patient (either patient identification number or name), list all admissions to the hospital along with the diagnosis for each admission.
--- SELECT * FROM Persons WHERE lastName = input;
+-- SELECT * FROM Admissions WHERE lastName = input;
 
 2.6. For a given patient (either patient identification number or name), list all treatments that were administered. Group treatments by admissions. List admissions in descending chronological order, and list treatments in ascending chronological order within each admission.
 -- SELECT (treatment) FROM PatientTreatments WHERE patient = input
@@ -37,9 +37,9 @@
 
 
 3.1. List the diagnoses given to patients, in descending order of occurrences. List diagnosis identification number, name, and total occurrences of each diagnosis.
--- SELECT d.dID, d.diagnosisName, COUNT(p.initialDiagnosis) FROM Diagnoses d, Persons p
+-- SELECT d.dID, d.diagnosisName, COUNT(a.initialDiagnosis) FROM Diagnoses d, Admissions a
 -- GROUP BY d.diagnosisName
--- ORDER BY COUNT(p.initialDiagnosis) DESC;
+-- ORDER BY COUNT(a.initialDiagnosis) DESC;
 
 3.2. List the diagnoses given to hospital patients, in descending order of occurrences. List diagnosis identification number, name, and total occurrences of each diagnosis.
 -- // this query is the same as 3.1, skip this queryDFJK
@@ -65,10 +65,11 @@
 -- 
 
 4.3. For a given doctor, list all associated diagnoses in descending order of occurrence. For each diagnosis, list the total number of occurrences for the given doctor.
--- SELECT DISTINCT initialDiagnosis, COUNT(initialDiagnosis) FROM Persons WHERE primaryDoctor = input, initialDiagnosis = Diagnoses.dID;
+-- SELECT DISTINCT initialDiagnosis, COUNT(initialDiagnosis) FROM Admissions WHERE primaryDoctor = input, Admissions.initialDiagnosis = Diagnoses.dID;
 
 4.4. For a given doctor, list all treatments that they ordered in descending order of occurrence. For each treatment, list the total number of occurrences for the given doctor.
--- SELECT DISTICT treatment, COUNT(treatment) FROM PatientTreatments WHERE orderingDoctor = input, treatment = Treatments.tID;
+-- SELECT DISTICT treatment, COUNT(treatment) FROM PatientTreatments WHERE orderingDoctor = input, PatientTreatments.treatment = Treatments.tID;
 
 4.5. List employees who have been involved in the treatment of every admitted patient.
--- SELECT (patient, doctor) WHERE currentlyAdmitted = 'Y';
+-- SELECT (patientID, primaryDoctor) FROM Admissions WHERE dischargeDate is NULL
+-- JOIN WITH (patient, doctor) FROM AdditionalDoctors WHERE Admissions.patientID = AdditionalDoctors.patient;
