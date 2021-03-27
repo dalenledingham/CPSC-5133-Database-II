@@ -65,10 +65,10 @@
 -- 
 
 4.3. For a given doctor, list all associated diagnoses in descending order of occurrence. For each diagnosis, list the total number of occurrences for the given doctor.
--- 
+-- SELECT DISTINCT initialDiagnosis, COUNT(initialDiagnosis) FROM Persons WHERE primaryDoctor = input, initialDiagnosis = Diagnoses.dID;
 
 4.4. For a given doctor, list all treatments that they ordered in descending order of occurrence. For each treatment, list the total number of occurrences for the given doctor.
--- 
+-- SELECT DISTICT treatment, COUNT(treatment) FROM PatientTreatments WHERE orderingDoctor = input, treatment = Treatments.tID;
 
 4.5. List employees who have been involved in the treatment of every admitted patient.
 -- SELECT (patient, doctor) WHERE currentlyAdmitted = 'Y';
