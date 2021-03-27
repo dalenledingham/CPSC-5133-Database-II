@@ -53,12 +53,15 @@
 
 
 4.1. List all workers at the hospital, in ascending last name, first name order. For each worker, list their, name, and job category.
--- 
+-- SELECT * FROM Persons WHERE personType <> 'P'
+-- ORDER BY lastName COLLATE NOCASE ASC;
+
 4.2. List the primary doctors of patients with a high admission rate (at least 4 admissions within a one-year time frame).
 -- 
 
 4.3. For a given doctor, list all associated diagnoses in descending order of occurrence. For each diagnosis, list the total number of occurrences for the given doctor.
 -- 
+
 4.4. For a given doctor, list all treatments that they ordered in descending order of occurrence. For each treatment, list the total number of occurrences for the given doctor.
 -- 
 
