@@ -1,0 +1,3 @@
+2.1 SELECT * FROM Persons WHERE personType = 'P';
+1.1 SELECT (roomNum, patient, admitDate) FROM Rooms WHERE isOccupied = 'Y';
+1.2 SELECT (roomNum) FROM Rooms WHERE isOccupied = 'Y';
