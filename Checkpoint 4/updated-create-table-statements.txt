@@ -5,6 +5,13 @@ CREATE TABLE PersonTypes
     typeName VARCHAR,
     PRIMARY KEY (typeID AUTOINCREMENT)
 );
+CREATE TABLE Persons
+(
+    pID INTEGER,
+    personType INTEGER,
+    firstName VARCHAR,
+    lastName VARCHAR UNIQUE,
+);
 CREATE TABLE Diagnoses
 (
     dID INTEGER,
@@ -37,12 +44,12 @@ CREATE TABLE PatientTreatments
     FOREIGN KEY (treatment) REFERENCES Treatments (tID),
     FOREIGN KEY (orderingDoctor) REFERENCES Persons (pID)
 );
-CREATE TABLE Persons
+CREATE TABLE Admissions
 (
-    pID INTEGER,
-    personType INTEGER,
+    aID INTEGER,
+    patientID INTEGER,
     firstName VARCHAR,
-    lastName VARCHAR UNIQUE,
+    lastName VARCHAR,
     initialDiagnosis INTEGER,
     primaryDoctor INTEGER,
     insurancePolicy VARCHAR,
@@ -50,8 +57,8 @@ CREATE TABLE Persons
     emergencyContact INTEGER,
     admitDate VARCHAR,
     dischargeDate VARCHAR,
-    PRIMARY KEY (pID AUTOINCREMENT),
-    FOREIGN KEY (personType) REFERENCES PersonTypes (typeID),
+    PRIMARY KEY (aID AUTOINCREMENT),
+    FOREIGN KEY (patientID) REFERENCES Persons (pID),
     FOREIGN KEY (initialDiagnosis) REFERENCES Diagnoses (dID),
     FOREIGN KEY (primaryDoctor) REFERENCES Persons (pID),
     FOREIGN KEY (emergencyContact) REFERENCES EmergencyContacts (eID)
