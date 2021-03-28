@@ -172,20 +172,15 @@ public class DataImporterTestCode {
    
    // Insert info into Rooms table
    public void insertRoom(ArrayList<String> arr) {
-      String sql = "INSERT INTO Rooms(roomNum, isOccupied, firstName, lastName, admitDate) VALUES (?,?,?,?);";
+      String sql = "INSERT INTO Rooms(roomNum, firstName, lastName, admitDate, dischrgeDate) VALUES (?,?,?,?);";
    
       try (Connection conn = this.connect();) {
          PreparedStatement ps = conn.prepareStatement(sql);
          ps.setString(1, arr.get(3));
-         if (arr.size() < 12) {
-            ps.setString(2, "Y");
-         }
-         else {
-            ps.setString(2, "N");
-         }
-         ps.setString(3, arr.get(1));
-         ps.setString(4, arr.get(2));
-         ps.setString(5, arr.get(10));
+         ps.setString(2, arr.get(1));
+         ps.setString(3, arr.get(2));
+         ps.setString(4, arr.get(10));
+         ps.setString(5, arr.get(11));
          ps.executeUpdate();
          ps.close();
       }
