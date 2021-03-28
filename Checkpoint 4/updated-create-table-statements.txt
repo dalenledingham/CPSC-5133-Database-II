@@ -59,10 +59,10 @@ CREATE TABLE Rooms
 (
     rID INTEGER,
     roomNum INTEGER UNIQUE,
-    isOccupied VARCHAR,
     firstName VARCHAR,
     lastName VARCHAR,
     admitDate VARCHAR,
+    dischrgeDate VARCHAR,
     PRIMARY KEY (rID AUTOINCREMENT)
 );
 CREATE TABLE AdditionalDoctors
