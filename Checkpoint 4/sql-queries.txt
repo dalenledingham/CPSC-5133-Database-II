@@ -1,0 +1,66 @@
+1.1 
+SELECT roomNum, firstName, lastName, admitDate FROM Admissions WHERE dischargeDate IS NULL;
+1.2 
+SELECT DISTINCT roomNum FROM Admissions WHERE dischargDate IS NOT NULL;
+1.3 
+
+2.1 
+SELECT pID, ptFirstName, lastName, insurancePolicy, insuranceCompany
+FROM Persons
+INNER JOIN Admissions USING(lastName);
+2.2 
+SELECT pID, firstName, lastName FROM Persons
+INNER JOIN Admissions USING(lastName) WHERE dischargeDate is NULL;
+2.3 
+SELECT pID, firstName, lastName FROM Persons
+INNER JOIN Admissions 
+USING(lastName)
+WHERE dischargeDate BETWEEN '2020-01-01' AND 'now';
+// data left in for test purposes, will take user input in final project
+2.4 
+SELECT pID, firstName, lastName FROM Persons
+INNER JOIN Admissions 
+USING(lastName)
+WHERE admitDate BETWEEN '2020-01-01' AND 'now';
+// data left in for test purposes, will take user input in final project
+2.5 SELECT * FROM Admissions WHERE lastName = ‘Jackson’;
+// data left in for test purposes, will take user input in final project
+2.6
+2.7
+2.8
+
+3.1 
+SELECT dID, diagnosisName, COUNT(diagnosis) FROM Admissions
+INNER JOIN Diagnoses ON(Admissions.diagnosis = Diagnoses.diagnosisName)
+GROUP BY diagnosisName
+ORDER BY Count(diagnosis) DESC;
+3.2 
+same as 3.1
+3.3 
+SELECT tID, treatmentName, COUNT(treatment) FROM PatientTreatments
+INNER JOIN Treatments ON(PatientTreatments.treatment = Treatments.treatmentName)
+GROUP BY treatmentName
+ORDER BY Count(treatment) DESC;
+3.4 
+SELECT lastName, diagnosis, Count(diagnosis) FROM Admissions
+GROUP BY lastName, diagnosis 
+ORDER BY Count(diagnosis) DESC;
+3.5 
+SELECT lastName, orderingDoctor FROM PatientTreatments WHERE administerTime = '2019-1-10 1:20';
+// data left in for test purposes, will take user input in final project
+
+4.1 
+SELECT lastName, ptFirstName, personType FROM Persons WHERE personType <> 'P'
+ORDER BY lastName, ptFirstName ASC;
+4.2
+4.3 
+SELECT DISTINCT diagnosis, COUNT(diagnosis) FROM Admissions WHERE primaryDoctor = 'Smith'
+ORDER BY COUNT(diagnosis) DESC;
+4.4 
+SELECT DISTINCT treatment, COUNT(treatment) FROM PatientTreatments WHERE orderingDoctor = ‘Knowles’
+ORDER BY COUNT(treatment) DESC;
+// data left in for test purposes, will take user input in final project
+4.5 
+SELECT lastName, primaryDoctor, doctor FROM AdditionalDoctors
+INNER JOIN Admissions ON(AdditionalDoctors.patient = Admissions.lastName)
+WHERE Admissions.dischargeDate is NULL;

@@ -1,22 +1,26 @@
-CREATE TABLE PersonTypes
+DROP TABLE Persons;
+DROP TABLE Diagnoses;
+DROP TABLE Treatments;
+DROP TABLE PatientTreatments;
+DROP TABLE Admissions;
+DROP TABLE Rooms;
+DROP TABLE AdditionalDoctors;
+
+
+
+CREATE TABLE Persons
 (
-    typeID INTEGER,
-    typeInitial VARCHAR,
-    typeName VARCHAR,
-    PRIMARY KEY (typeID AUTOINCREMENT)
+    pID INTEGER,
+    personType VARCHAR,
+    ptFirstName VARCHAR,
+    lastName VARCHAR UNIQUE,
+    PRIMARY KEY (pID AUTOINCREMENT)
 );
 CREATE TABLE Diagnoses
 (
     dID INTEGER,
     diagnosisName VARCHAR UNIQUE,
     PRIMARY KEY (dID AUTOINCREMENT)
-);
-CREATE TABLE EmergencyContacts
-(
-    ecID INTEGER,
-    ecName VARCHAR,
-    ecPhone VARCHAR,
-    PRIMARY KEY (ecID AUTOINCREMENT)
 );
 CREATE TABLE Treatments
 (
@@ -27,42 +31,42 @@ CREATE TABLE Treatments
 );
 CREATE TABLE PatientTreatments
 (
-    ptID INTEGER,
-    patient INTEGER,
-    treatment INTEGER,
-    orderingDoctor INTEGER,
+    lastName VARCHAR,
+    treatment VARCHAR,
+    orderingDoctor VARCHAR,
     administerTime VARCHAR,
-    PRIMARY KEY (ptID AUTOINCREMENT),
-    FOREIGN KEY (patient) REFERENCES Persons (pID),
-    FOREIGN KEY (treatment) REFERENCES Treatments (tID),
-    FOREIGN KEY (orderingDoctor) REFERENCES Persons (pID)
+    PRIMARY KEY (lastName, treatment, administerTime)
 );
-CREATE TABLE Persons
+CREATE TABLE Admissions
 (
-    pID INTEGER,
-    personType INTEGER,
     firstName VARCHAR,
-    lastName VARCHAR UNIQUE,
-    initialDiagnosis INTEGER,
-    primaryDoctor INTEGER,
+    lastName VARCHAR,
+    roomNum INTEGER,
+    diagnosis VARCHAR,
+    primaryDoctor VARCHAR,
     insurancePolicy VARCHAR,
     insuranceCompany VARCHAR,
-    emergencyContact INTEGER,
+    ecName VARCHAR,
+    ecPhone VARCHAR,
     admitDate VARCHAR,
     dischargeDate VARCHAR,
-    PRIMARY KEY (pID AUTOINCREMENT),
-    FOREIGN KEY (personType) REFERENCES PersonTypes (typeID),
-    FOREIGN KEY (initialDiagnosis) REFERENCES Diagnoses (dID),
-    FOREIGN KEY (primaryDoctor) REFERENCES Persons (pID),
-    FOREIGN KEY (emergencyContact) REFERENCES EmergencyContacts (eID)
+    PRIMARY KEY (lastName, admitDate)
 );
 CREATE TABLE Rooms
 (
     rID INTEGER,
     roomNum INTEGER UNIQUE,
     isOccupied VARCHAR,
-    patient INTEGER,
+    firstName VARCHAR,
+    lastName VARCHAR,
     admitDate VARCHAR,
-    PRIMARY KEY (rID AUTOINCREMENT),
-    FOREIGN KEY (patient) REFERENCES Persons (pID)
+    dischargeDate VARCHAR,
+    PRIMARY KEY (rID AUTOINCREMENT)
 );
+CREATE TABLE AdditionalDoctors
+(
+    patient VARCHAR,
+    doctor VARCHAR,
+    PRIMARY KEY (patient, doctor)
+);
+
