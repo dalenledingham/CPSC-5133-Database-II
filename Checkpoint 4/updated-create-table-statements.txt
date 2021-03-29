@@ -12,7 +12,7 @@ CREATE TABLE Persons
 (
     pID INTEGER,
     personType VARCHAR,
-    firstName VARCHAR,
+    ptFirstName VARCHAR,
     lastName VARCHAR UNIQUE,
     PRIMARY KEY (pID AUTOINCREMENT)
 );
@@ -31,17 +31,14 @@ CREATE TABLE Treatments
 );
 CREATE TABLE PatientTreatments
 (
-    ptID INTEGER,
-    firstName VARCHAR,
     lastName VARCHAR,
     treatment VARCHAR,
     orderingDoctor VARCHAR,
     administerTime VARCHAR,
-    PRIMARY KEY (ptID AUTOINCREMENT)
+    PRIMARY KEY (lastName, treatment, administerTime)
 );
 CREATE TABLE Admissions
 (
-    aID INTEGER,
     firstName VARCHAR,
     lastName VARCHAR,
     roomNum INTEGER,
@@ -53,22 +50,23 @@ CREATE TABLE Admissions
     ecPhone VARCHAR,
     admitDate VARCHAR,
     dischargeDate VARCHAR,
-    PRIMARY KEY (aID AUTOINCREMENT)
+    PRIMARY KEY (lastName, admitDate)
 );
 CREATE TABLE Rooms
 (
     rID INTEGER,
     roomNum INTEGER UNIQUE,
+    isOccupied VARCHAR,
     firstName VARCHAR,
     lastName VARCHAR,
     admitDate VARCHAR,
-    dischrgeDate VARCHAR,
+    dischargeDate VARCHAR,
     PRIMARY KEY (rID AUTOINCREMENT)
 );
 CREATE TABLE AdditionalDoctors
 (
-    adID INTEGER,
     patient VARCHAR,
     doctor VARCHAR,
-    PRIMARY KEY (adID AUTOINCREMENT)
+    PRIMARY KEY (patient, doctor)
 );
+
