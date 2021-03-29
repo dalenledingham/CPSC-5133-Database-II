@@ -9,7 +9,7 @@ import java.io.*;
 * @version 3/14/2021
 */
 
-public class DataImporterTestCode {
+public class DataImporter {
 
   // Establish connection to database file
    private Connection connect() {
@@ -52,7 +52,7 @@ public class DataImporterTestCode {
             // if person is patient
             if (data.get(0).equals("P")) {
                insertPerson(data);
-               insertRoom(data);
+               //insertRoom(data);
                insertDiagnosis(data);
                insertAdmission(data);
             }
@@ -121,6 +121,7 @@ public class DataImporterTestCode {
             }
          
             insertTreatment(data);
+            insertPatientTreatment(data);
          }
          
          scan.close();
@@ -138,7 +139,7 @@ public class DataImporterTestCode {
    
    // Insert info into Persons table
    public void insertPerson(ArrayList<String> arr) {
-      String sql = "INSERT INTO Persons(personType, firstName, lastName) VALUES (?,?,?);";
+      String sql = "INSERT INTO Persons(personType, ptFirstName, lastName) VALUES (?,?,?);";
    
       try (Connection conn = this.connect();) {
          PreparedStatement ps = conn.prepareStatement(sql);
@@ -149,7 +150,7 @@ public class DataImporterTestCode {
          ps.close();
       }
       catch (SQLException e) {
-         System.out.println(e.getMessage() + " 152");
+         System.out.println(e.getMessage() + " 153");
       }
    }
    
@@ -165,14 +166,14 @@ public class DataImporterTestCode {
          ps.close();
       }
       catch (SQLException e) {
-         System.out.println(e.getMessage() + " 168");
+         System.out.println(e.getMessage() + " 169");
       }
    }
    
-   
+   /*
    // Insert info into Rooms table
    public void insertRoom(ArrayList<String> arr) {
-      String sql = "INSERT INTO Rooms(roomNum, firstName, lastName, admitDate, dischrgeDate) VALUES (?,?,?,?);";
+      String sql = "INSERT INTO Rooms(roomNum, firstName, lastName, admitDate, dischargeDate) VALUES (?,?,?,?);";
    
       try (Connection conn = this.connect();) {
          PreparedStatement ps = conn.prepareStatement(sql);
@@ -188,7 +189,7 @@ public class DataImporterTestCode {
          System.out.println(e.getMessage() + " 193");
       }
    }
-   
+   */
 
    // Insert info into Admissions table
    public void insertAdmission(ArrayList<String> arr) {
@@ -216,7 +217,7 @@ public class DataImporterTestCode {
          ps.close();
       }
       catch (SQLException e) {
-         System.out.println(e.getMessage() + " 224");
+         System.out.println(e.getMessage() + " 220");
       }
    }
 
@@ -233,19 +234,43 @@ public class DataImporterTestCode {
          ps.close();
       }
       catch (SQLException e) {
-         System.out.println(e.getMessage() + " 241");
+         System.out.println(e.getMessage() + " 237");
       }
    }
    
    
+   // Insert info into Treatments table
    public void insertTreatment(ArrayList<String> arr) {
       String sql = "INSERT INTO Treatments(treatmentName, treatmentType) VALUES (?,?);";
    
       try (Connection conn = this.connect();) {
-      
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ps.setString(1, arr.get(3));
+         ps.setString(2, arr.get(2));
+         ps.executeUpdate();
+         ps.close();
       }
       catch (SQLException e) {
-         System.out.println(e.getMessage() + " 253");
+         System.out.println(e.getMessage() + " 254");
+      }
+   }
+   
+   
+   // Insert info into PatientTreatments table
+   public void insertPatientTreatment(ArrayList<String> arr) {
+      String sql = "INSERT INTO PatientTreatments(lastName, treatment, orderingDoctor, administerTime) VALUES (?,?,?,?);";
+   
+      try (Connection conn = this.connect();) {
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ps.setString(1, arr.get(0));
+         ps.setString(2, arr.get(3));
+         ps.setString(3, arr.get(1));
+         ps.setString(4, arr.get(4));
+         ps.executeUpdate();
+         ps.close();
+      }
+      catch (SQLException e) {
+         System.out.println(e.getMessage() + " 273");
       }
    }
    
@@ -257,9 +282,9 @@ public class DataImporterTestCode {
    
    // Main method
    public static void main(String[] args) {
-      DataImporterTestCode app = new DataImporterTestCode();
+      DataImporter app = new DataImporter();
       app.readPersonFile("H:\\Auburn CPSC\\CPSC 5133 - Database II\\person-data.txt");
-      //app.readDoctorFile("H:\\Auburn CPSC\\CPSC 5133 - Database II\\additional-doctor-data.txt");
-      //app.readTreatmentFile("H:\\Auburn CPSC\\CPSC 5133 - Database II\\treatment-data.txt");
+      app.readDoctorFile("H:\\Auburn CPSC\\CPSC 5133 - Database II\\additional-doctor-data.txt");
+      app.readTreatmentFile("H:\\Auburn CPSC\\CPSC 5133 - Database II\\treatment-data.txt");
    }
 }
