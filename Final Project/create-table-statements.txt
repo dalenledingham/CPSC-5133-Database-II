@@ -1,0 +1,70 @@
+DROP TABLE Rooms;
+DROP TABLE Persons;
+DROP TABLE Diagnoses;
+DROP TABLE Treatments;
+DROP TABLE PatientTreatments;
+DROP TABLE Admissions;
+DROP TABLE AdditionalDoctors;
+
+
+
+CREATE TABLE Rooms
+(
+    roomNum INTEGER,
+    isOccupied VARCHAR,
+    firstName VARCHAR,
+    lastName VARCHAR,
+    admitDate VARCHAR,
+    PRIMARY KEY (roomNum)
+);
+CREATE TABLE Persons
+(
+    pID INTEGER,
+    personType VARCHAR,
+    pFirstName VARCHAR,
+    lastName VARCHAR UNIQUE,
+    PRIMARY KEY (pID AUTOINCREMENT)
+);
+CREATE TABLE Diagnoses
+(
+    dID INTEGER,
+    diagnosisName VARCHAR UNIQUE,
+    PRIMARY KEY (dID AUTOINCREMENT)
+);
+CREATE TABLE Treatments
+(
+    tID INTEGER,
+    treatmentName VARCHAR UNIQUE,
+    treatmentType VARCHAR,
+    PRIMARY KEY (tID AUTOINCREMENT)
+);
+CREATE TABLE PatientTreatments
+(
+    lastName VARCHAR,
+    treatment VARCHAR,
+    orderingDoctor VARCHAR,
+    administerTime VARCHAR,
+    PRIMARY KEY (lastName, treatment, administerTime)
+);
+CREATE TABLE Admissions
+(
+    firstName VARCHAR,
+    lastName VARCHAR,
+    roomNum INTEGER,
+    diagnosis VARCHAR,
+    primaryDoctor VARCHAR,
+    insurancePolicy VARCHAR,
+    insuranceCompany VARCHAR,
+    ecName VARCHAR,
+    ecPhone VARCHAR,
+    admitDate VARCHAR,
+    dischargeDate VARCHAR,
+    PRIMARY KEY (lastName, admitDate)
+);
+CREATE TABLE AdditionalDoctors
+(
+    patient VARCHAR,
+    doctor VARCHAR,
+    PRIMARY KEY (patient, doctor)
+);
+
